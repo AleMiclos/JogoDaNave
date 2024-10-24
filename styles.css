@@ -1,0 +1,60 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+  }
+  canvas {
+    display: block;
+  }
+
+  /* Estilo para o campo de entrada */
+.input-field {
+  text-align: center;
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid #2A701D;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+  outline: none;
+}
+
+/* Estilo para o botão */
+.save-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #2A701D;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Estilo para o botão quando hover */
+.save-button:hover {
+  background-color: #1f5e0d;
+}
+
+.ranking-button {
+  margin-right: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #2A701D;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Estilo para o botão de ranking quando hover */
+.ranking-button:hover {
+  background-color: #0056b3;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+}
