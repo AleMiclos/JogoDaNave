@@ -162,7 +162,7 @@ function drawGameOverScreen() {
 }
 
 function sendScoreToServer(username, score) {
-  fetch('http://localhost:3001/save-score', {
+  fetch('https://apimongodb-3dq1.onrender.com/scores', { // Use a URL da sua API
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
