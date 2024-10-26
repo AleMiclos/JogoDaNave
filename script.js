@@ -1,22 +1,33 @@
 let enemies = [];
-let enemyInterval = 60; // Intervalo para gerar novos inimigos (em frames)
-let gameDuration = 60; // Duração total do jogo em segundos
+let enemyInterval = 60;
+let gameDuration = 45;
 let remainingTime = gameDuration;
 let points = 0;
 let gameOver = false;
 let inputField;
 let saveScoreButton;
+let bgImage; // Variável para armazenar a imagem
+
+function preload() {
+  bgImage = loadImage('Logo-Santa-Lucia.png');
+}
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   bullets = [];
   player = new Player(300, 700, 30);
-  generateRandomEnemies(); // Gera inimigos iniciais
-  frameRate(60); // Define a taxa de quadros para 60 por segundo
+  generateRandomEnemies();
+  frameRate(60);
 }
 
 function draw() {
   background("rgb(204,242,204)");
+
+  // Desenha a imagem no centro da tela
+  if (bgImage) {
+    imageMode(CENTER);
+    image(bgImage, width / 2, height / 2);
+  }
 
   if (gameOver) {
     drawGameOverScreen();
@@ -29,7 +40,7 @@ function draw() {
     updateTimer();
     generateEnemy();
     drawScore();
-    drawTimer(); // Desenha o timer na tela
+    drawTimer();
   }
 }
 
@@ -246,6 +257,8 @@ class Enemy {
     this.posY++;
   }
 }
+
+
 
 class Bullet {
   constructor(posX, posY, sizeX, sizeY) {
