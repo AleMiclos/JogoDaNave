@@ -194,8 +194,6 @@ function drawGameOverScreen() {
 }
 
 
-
-
 function sendScoreToServer(username, score) {
   fetch('http://localhost:3001/save-score/spaceship', { // Use a URL da sua API
     method: 'POST',
@@ -211,16 +209,19 @@ function sendScoreToServer(username, score) {
 
 
 function restartGame() {
+  // Resetar as variáveis de jogo
   gameOver = false;
   points = 0;
   player.posX = 300;
   player.posY = 700;
   enemies = [];
   bullets = [];
-  remainingTime = gameDuration; // Reinicia o tempo
+  remainingTime = gameDuration;
+  
+  // Gera novos inimigos
   generateRandomEnemies();
 
-  // Remove o botão e o campo de entrada, se existirem
+  // Remove o campo de entrada e os botões, se existirem
   if (inputField) {
     inputField.remove();
     inputField = null;
@@ -228,6 +229,10 @@ function restartGame() {
   if (saveScoreButton) {
     saveScoreButton.remove();
     saveScoreButton = null;
+  }
+  if (restartButton) {
+    restartButton.remove();
+    restartButton = null;
   }
 }
 
@@ -297,4 +302,15 @@ class Bullet {
     rect(this.posX, this.posY, this.sizeX, this.sizeY);
     this.posY -= 10;
   }
+}
+
+function keyPressed() {
+  if (key === ' ') {  // tecla de espaço para disparar
+    shoot();
+  }
+}
+
+function shoot() {
+  let bullet = new Bullet(player.posX + 12, player.posY - 20, 5, 20);
+  bullets.push(bullet);
 }
