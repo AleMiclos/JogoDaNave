@@ -6,10 +6,15 @@ let points = 0;
 let gameOver = false;
 let inputField;
 let saveScoreButton;
-let bgImage; // Variável para armazenar a imagem
+let bgImage; 
+let qrCodeImage;
+let restartButton;
+
 
 function preload() {
   bgImage = loadImage('Logo-Santa-Lucia.png');
+  qrCodeImage = loadImage('qrCodeImage.png');
+  
 }
 
 function setup() {
@@ -48,14 +53,7 @@ function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
 }
 
-function keyReleased(event) {
-  if (event.code === "Space" && !gameOver) {
-    shoot();
-  } else if (event.code === "Enter" && gameOver) {
-    restartGame();
-  }
-  return false;
-}
+
 
 function handleBullets() {
   // Desenha e atualiza balas
@@ -143,37 +141,63 @@ function drawGameOverScreen() {
   textSize(50);
   text("Fim de jogo", width / 2, height / 4 - 50);
   textSize(30);
-  text("Pressione o Enter para continuar", width / 2, height / 4 + 50);
+  text("Obrigado por jogar!", width / 2, height / 4 + 50);
   text("Final Score: " + points, width / 2, height / 4 + 100);
 
-  // Adiciona um container para o campo de entrada e o botão
-  if (!inputField) {
+  // Define o tamanho do QR Code
+  const qrCodeWidth = 150;
+  const qrCodeHeight = 150;
+
+  if (qrCodeImage) {
+    text("Desenvolvido por Alexandre Miclos ", width / 5, height / 4 + 50);
+    imageMode(CENTER);
+    image(qrCodeImage, width / 5, height / 4 + 180, qrCodeWidth, qrCodeHeight);
+  }
+
+  // Container centralizado para o campo de entrada e o botão "Salvar Placar"
+  if (!inputField && !saveScoreButton) {
     let container = createDiv();
-    container.position(width / 2 - 100, height / 3 + 150);
-    container.class('container'); // Adiciona a classe CSS
+    container.position(width / 2 - 115, height / 4 + 200); // Centraliza o container horizontalmente
+    container.class('container');
 
     inputField = createInput();
-    inputField.size(200);
-    inputField.class('input-field'); // Adiciona a classe CSS
-    inputField.parent(container); // Adiciona o campo de entrada ao container
+    inputField.size(200); 
+    inputField.class('input-field');
+    inputField.parent(container);
 
     saveScoreButton = createButton('Salvar Placar');
-    saveScoreButton.class('save-button'); // Adiciona a classe CSS
+    saveScoreButton.class('save-button');
     saveScoreButton.mousePressed(() => {
       let username = inputField.value();
       if (username) {
         sendScoreToServer(username, points);
       }
-      container.remove(); // Remove o container e seus filhos
+      container.remove();
       inputField = null;
       saveScoreButton = null;
     });
-    saveScoreButton.parent(container); // Adiciona o botão ao container
+    saveScoreButton.parent(container);
+  }
+
+  // Cria o botão de reinício do jogo
+  if (!restartButton) {
+    restartButton = createButton('Reiniciar Jogo');
+    restartButton.position(width / 2 - 72, height / 4 + 310);
+     // Centraliza o botão de reinício
+    restartButton.class('restart-button');
+    restartButton.mousePressed(() => {
+      restartGame();
+      restartButton.remove();
+      restartButton = null;
+    });
   }
 }
 
+
+
+
 function sendScoreToServer(username, score) {
-  fetch('https://apimongodb-3dq1.onrender.com/scores', { // Use a URL da sua API
+  fetch('http://localhost:3001/save-score/spaceship', { // Use a URL da sua API
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
