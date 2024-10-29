@@ -13,7 +13,7 @@ let restartButton;
 
 function preload() {
   bgImage = loadImage('Logo-Santa-Lucia.png');
-  qrCodeImage = loadImage('qrCodeImage.png');
+  qrCodeImage = loadImage('qrcode.png');
   
 }
 
