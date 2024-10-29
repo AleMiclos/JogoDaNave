@@ -1,6 +1,6 @@
 let enemies = [];
-let enemyInterval = 60;
-let gameDuration = 45;
+let enemyInterval = 50;
+let gameDuration = 30;
 let remainingTime = gameDuration;
 let points = 0;
 let gameOver = false;
@@ -195,7 +195,7 @@ function drawGameOverScreen() {
 
 
 function sendScoreToServer(username, score) {
-  fetch('http://localhost:3001/save-score/spaceship', { // Use a URL da sua API
+  fetch('https://apimongodb-3dq1.onrender.com/save-score/spaceship', { // Use a URL da sua API
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -213,7 +213,7 @@ function restartGame() {
   gameOver = false;
   points = 0;
   player.posX = 300;
-  player.posY = 700;
+  player.posY = 500;
   enemies = [];
   bullets = [];
   remainingTime = gameDuration;
@@ -255,23 +255,27 @@ class Player {
   }
 
   move() {
-    if (keyIsDown(65) && this.posX >= 5) {
+    // Movimenta para a esquerda com 'A' ou seta esquerda
+    if ((keyIsDown(65) || keyIsDown(LEFT_ARROW)) && this.posX >= 5) {
       this.posX -= 5;
     }
-
-    if (keyIsDown(68) && this.posX <= width - this.size) {
+  
+    // Movimenta para a direita com 'D' ou seta direita
+    if ((keyIsDown(68) || keyIsDown(RIGHT_ARROW)) && this.posX <= width - this.size) {
       this.posX += 5;
     }
-
-    if (keyIsDown(87) && this.posY >= 5 + this.size) {
+  
+    // Movimenta para cima com 'W' ou seta cima
+    if ((keyIsDown(87) || keyIsDown(UP_ARROW)) && this.posY >= 5 + this.size) {
       this.posY -= 5;
     }
-
-    if (keyIsDown(83) && this.posY <= height - this.size) {
+  
+    // Movimenta para baixo com 'S' ou seta baixo
+    if ((keyIsDown(83) || keyIsDown(DOWN_ARROW)) && this.posY <= height - this.size) {
       this.posY += 5;
     }
   }
-}
+}  
 
 class Enemy {
   constructor(posX, posY, size) {
